@@ -1,3 +1,9 @@
+<%
+var dt = new Date();
+var y = dt.getFullYear();
+var m = dt.getMonth();
+var d = dt.getDay();
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,5 +14,15 @@
     <body>
         <h1><%=title %></h1>
         <p><%=msg %></p>
+        <p>Today is <%=y + "/" + (m+1) + "/" + d %></p>
+        <table>
+            <% for(var i=0; i<datas.length; i++){ %>
+            <tr>
+                <td><%= datas[i].name %></td>
+                <td><%= datas[i].mail %></td>
+                <td><%= datas[i].tel %></td>
+            </tr>
+            <% } %>
+        </table>
     </body>
 </html>

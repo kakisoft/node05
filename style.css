@@ -11,3 +11,7 @@ h1{
     font-size: 18pt;
     padding: 3px;
 }
+td{
+    padding: 5px;
+    background-color: #fff;
+}
