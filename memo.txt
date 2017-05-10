@@ -1,7 +1,6 @@
 プロジェクトフォルダにて、以下を実行。
 ＜EJSインストール＞
-```
 npm install ejs
-```
+
 ＜Cookieモジュールインストール＞
 npm install cookie
