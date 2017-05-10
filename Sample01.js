@@ -2,6 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var url = require('url');
 var ejs = require('ejs');
+var cookie = require('cookie');
 
 var index = fs.readFileSync('./index.ejs','utf8');
 var style = fs.readFileSync('./style.css','utf8');
@@ -21,10 +22,14 @@ function doRequest(req, res){
 
     switch(path.pathname){
         case '/':
-            var ck = req.headers.cookie;
+            var msg = 'there is no cookie.';
+            if(req.headers.cookie != null){
+                var ck = cookie.parse(req.headers.cookie);
+                msg = "cookie:" + ck.lasturl + "," + ck.lasttime;
+            }
             var tmp = ejs.render(index,{
                 title:"Index Page",
-                msg:"This is Sample Page. Cookie:" + ck,
+                msg:"Cookie:" + msg,
                 datas:datas
             });
             res.setHeader('Content-Type','text/html');
@@ -40,14 +45,37 @@ function doRequest(req, res){
         
         case '/favicon.ico':
             break;
+
+        case '/time':
+            var d = new Date().toDateString();
+            var ck1 = cookie.serialize('lasttime', d,{
+                maxAge:100
+            });
+            res.setHeader('Set-Cookie',ck1);
+            res.setHeader('Content-Type','text/plain');
+            res.write('COOKIE SETTED:lasttime');
+            //res.write('ERROR!');
+            res.end();
+            break;
         
         default:
+            var ckl = cookie.serialize('lasturl',path.pathname,{
+                maxage:100
+            });
+            res.setHeader('Set-Cookie',ckl);
+            res.setHeader('Content-Type','text/plain');
+            res.write('SET URL COOKIE!');
+            res.end();
+            break;
+
+        /*
             res.setHeader('Content-Type','text/plain');
             res.setHeader('Set-Cookie',['lasturl=' + path.pathname]);
             res.write('COOKIE SETTED:' + 'lasturl=' + path.pathname );
             //res.write('ERROR!');
             res.end();
             break;
+        */
     }
 }
 console.log('Server running at http://1337')
