@@ -21,9 +21,10 @@ function doRequest(req, res){
 
     switch(path.pathname){
         case '/':
+            var ck = req.headers.cookie;
             var tmp = ejs.render(index,{
                 title:"Index Page",
-                msg:"This is Sample Page",
+                msg:"This is Sample Page. Cookie:" + ck,
                 datas:datas
             });
             res.setHeader('Content-Type','text/html');
@@ -37,9 +38,14 @@ function doRequest(req, res){
             res.end();
             break;
         
+        case '/favicon.ico':
+            break;
+        
         default:
             res.setHeader('Content-Type','text/plain');
-            res.write('ERROR!');
+            res.setHeader('Set-Cookie',['lasturl=' + path.pathname]);
+            res.write('SET COOKIE!');
+            //res.write('ERROR!');
             res.end();
             break;
     }
