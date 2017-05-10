@@ -40,13 +40,6 @@ function doRequest(req, res){
         
         case '/favicon.ico':
             break;
-
-        case '/aaa':
-            res.setHeader('Content-Type','text/plain');
-            res.setHeader('Set-Cookie',['lasturl=' + path.pathname]);
-            res.write('COOKIE SETTED:' + 'lasturl=' + path.pathname );
-            res.end();
-            break;
         
         default:
             res.setHeader('Content-Type','text/plain');
